@@ -13,10 +13,12 @@ class DisjointSet
 	{
 		rank.resize(n+1,0);
 		parent.resize(n+1,0);
+		size.resize(n+1);
 		
 		for(int i=0;i<=n;i++)
 		{
 			parent[i] =i;
+			size[i]= 1;
 		}	
 	}
 	
@@ -51,6 +53,27 @@ class DisjointSet
 		}
 	}
 	
+		void UnionBySize(int u,int v)
+	  {
+	  	
+		int ul_pu = FindUlparent(u);
+		int ul_pv = FindUlparent(v);
+		if(ul_pu == ul_pv) return;
+		
+		if(size[ul_pu]  < size[ul_pv])
+		{
+			parent[ul_pu] = ul_pv;
+			size[ul_pv] +=size[ul_pu];
+		}
+		else
+		{
+			parent[ul_pv] = ul_pu;
+			size[ul_pu] +=size[ul_pv];
+		}
+		
+		}
+	
+	
 };
 int main()
 {
@@ -60,11 +83,36 @@ int main()
     
   DisjointSet ds(7);
   
-     ds.UnionByRank(1,2);
-     ds.UnionByRank(2,3);
-     ds.UnionByRank(4,5);
-     ds.UnionByRank(6,7);
-     ds.UnionByRank(5,6);
+     // ds.UnionByRank(1,2);
+     // ds.UnionByRank(2,3);
+     // ds.UnionByRank(4,5);
+     // ds.UnionByRank(6,7);
+     // ds.UnionByRank(5,6);
+     
+     // if(ds.FindUlparent(3) == ds.FindUlparent(7))
+     // {
+     // 	cout<<"Same \n";
+     // }
+     // else
+     // {
+     // 	cout<<"Not Same \n";
+     // }
+     // ds.UnionByRank(3,7);
+     //    if(ds.FindUlparent(3) == ds.FindUlparent(7))
+     // {
+     // 	cout<<"Same \n";
+     // }
+     // else
+     // {
+     // 	cout<<"Not Same \n";
+     // }
+           
+           
+     ds.UnionBySize(1,2);
+     ds.UnionBySize(2,3);
+     ds.UnionBySize(4,5);
+     ds.UnionBySize(6,7);
+     ds.UnionBySize(5,6);
      
      if(ds.FindUlparent(3) == ds.FindUlparent(7))
      {
@@ -74,7 +122,7 @@ int main()
      {
      	cout<<"Not Same \n";
      }
-     ds.UnionByRank(3,7);
+     ds.UnionBySize(3,7);
         if(ds.FindUlparent(3) == ds.FindUlparent(7))
      {
      	cout<<"Same \n";
@@ -83,6 +131,5 @@ int main()
      {
      	cout<<"Not Same \n";
      }
-           
   
 }
